@@ -3,6 +3,7 @@ import { Container, Graphics } from "pixi.js";
 export default class Ball extends Container{
 
     #speed;
+    #max_speed = 10;
 
     constructor(){
             super();
@@ -26,14 +27,34 @@ export default class Ball extends Container{
 
     reverseY() {
         this.#speed.y *= -1;
+        this.#gainingSpeed();
     }
     reverseX() {
         this.#speed.x *= -1;
+        this.#gainingSpeed();
     }
     getSpeedY() {
         return (this.#speed.y + this.#speed.acceleration);
     }
     getSpeedX() {
         return (this.#speed.x + this.#speed.acceleration);
+    }
+    getRadius() {
+        return 10;
+    }
+
+    #gainingSpeed() {
+        if (this.#speed.y < 0 && this.#speed.y > -this.#max_speed) {
+            this.#speed.y -= 0.1;
+        }
+        else if (this.#speed.y < 0 && this.#speed.y < this.#max_speed){
+            this.#speed.y += 0.1;
+        }
+        if (this.#speed.x < 0 && this.#speed.x > -this.#max_speed) {
+            this.#speed.x -= 0.1;
+        }
+        else if (this.#speed.x < this.#max_speed){
+            this.#speed.x += 0.1;
+        }
     }
 }
