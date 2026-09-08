@@ -10,7 +10,7 @@ export default class Ball extends Container{
             const sprite = new Graphics();
             sprite.circle(0,0,10)
             .fill({
-                color: 0x00ff00
+                color: 0xffff00
             });
             this.addChild(sprite);
             this.#speed = {
@@ -41,6 +41,20 @@ export default class Ball extends Container{
     }
     getRadius() {
         return 10;
+    }
+    resetSpeed() {
+        if (this.#speed.x < 0) {
+            this.#speed.x = -1;
+        }
+        else {
+            this.#speed.x = 1;
+        }
+        if (this.#speed.y < 0) {
+            this.#speed.y = -2;
+        }
+        else {
+            this.#speed.y = 2
+        }
     }
 
     #gainingSpeed() {

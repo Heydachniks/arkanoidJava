@@ -64,7 +64,7 @@ export default class Game {
             for (let j = 0; j < 14; j++) {
                 const brick = this.#brick_factory.createBrick(
                     (j * 45) + 20,
-                    (i * 21) + 100
+                    (i * 21) + 150
                 );
 
                 if (brick) {
@@ -122,10 +122,9 @@ export default class Game {
         for (let powerup = 0; powerup < this.#powerups.length; powerup++) {
             this.#powerups[powerup].update();
             if (this.detectCollision(this.#powerups[powerup], this.#paddle)) {
+                this.powerupAction(this.#powerups[powerup]);
                 this.#powerups[powerup].removeFromParent();
                 this.#powerups.splice(powerup, 1);
-                this.#score ++;
-                this.#score_text.text = 'Score: ' + this.#score;
             }
         };
 
@@ -138,6 +137,22 @@ export default class Game {
             alert('Победа!');
         }
 
+    }
+
+    powerupAction (powerup) {
+        if (powerup.getStatus() === 0) {
+            this.#ball.resetSpeed();
+        }
+        else if (powerup.getStatus() === 1) {
+            this.#paddle.becomeLarge();
+        }
+        else if (powerup.getStatus() === 2) {
+            this.#score++;
+            this.#score_text.text = 'Score: ' + this.#score;
+        }
+        else if (powerup.getStatus() === 3) {
+            this.#paddle.becomeSmall();
+        }
     }
 
     detectCollision(entity, area) {
